@@ -223,7 +223,7 @@ class App extends React.Component {
             <Profile 
                 key={routeProps.location.pathname}
                 refreshUserData={this.refreshUserData.bind(this)}
-                isLoggedIn={this.props.isLoggedIn} 
+                // isLoggedIn={this.props.isLoggedIn} 
                 logUserOut={this.logUserOut.bind(this)}
                 userInfo={this.props.userInfo}
                 {...routeProps}

@@ -8,6 +8,7 @@ export const PREPEND_FEED = 'PREPEND_FEED';
 export const LOAD_MORE_FEED = 'LOAD_MORE_FEED';
 export const LOAD_PROFILE_DATA = 'LOAD_PROFILE_DATA';
 export const UNKNOWN_USER = 'UNKNOWN_USER';
+export const PROFILE_LOAD_MORE_FEED = 'PROFILE_LOAD_MORE_FEED'
 
 
 // /*
@@ -66,6 +67,14 @@ export function actionLoadMoreFeed(request) {
 	}
 }
 
+export function actionProfileLoadMoreFeed(request) {
+	console.log('action profile load feed', request);
+	return {
+		type: PROFILE_LOAD_MORE_FEED,
+		payload: request
+	}
+}
+
 export function actionLoadProfileData(request) {
 	// console.log('action load profile', request);
 	return {
@@ -75,7 +84,7 @@ export function actionLoadProfileData(request) {
 }
 
 export function actionUnknownUser() {
-	console.log('action load unknown user', request);
+	// console.log('action load unknown user', request);
 		return {
 			type: UNKNOWN_USER,
 			// paylod: request
