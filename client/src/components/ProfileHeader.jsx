@@ -26,7 +26,6 @@ class ProfileHeader extends React.Component {
   render() {
     return (
       <Paper className='feed-container'>
-      
         <Card>
           <CardHeader
             title={

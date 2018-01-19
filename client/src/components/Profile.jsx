@@ -12,15 +12,6 @@ import axios from 'axios';
 import feedManipulation from '../feedManipulation.js'
 
 class Profile extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      // // profileInfo: {},
-      // unknownUser: false,
-      // profileFeed: {},
-      // relationalFeed: {}
-    }
-  }
 
   componentDidMount() {
     let profileUsername = this.props.match.params.username;
@@ -61,9 +52,6 @@ class Profile extends React.Component {
       ? transactionSummary
       : feedManipulation.mergeFeeds(transactionSummary, this.props[feedType]);
     this.props.dispatch(actionPrependFeed({ feedType: feedType, obj: newFeedObject}))
-    // this.setState({
-    //   [feedType]: newFeedObject
-    // })
   }
 
   loadMoreFeed(feedType, userId) {
@@ -84,10 +72,6 @@ class Profile extends React.Component {
         if (response.data && response.data.count > 0) {
           let combinedItems = feedManipulation.mergeFeeds(this.props[feedType], response.data);
           this.props.dispatch(actionProfileLoadMoreFeed({ feedType: feedType, obj: combinedItems }))
-          // this.setState({
-          //   [feedType]: combinedItems
-          // })
-          console.log('hi');
         }
       })
       .catch((err) => {
@@ -136,7 +120,6 @@ class Profile extends React.Component {
     return (
       <div>
         <Navbar 
-          isLoggedIn={this.props.isLoggedIn} 
           logUserOut={this.props.logUserOut} />
         <div className='body-container'>
           {this.props.unknownUser 
@@ -144,18 +127,11 @@ class Profile extends React.Component {
             : <div className='pay-feed-container'>
               <ProfileHeader />
               {this.props.userInfo.username !== this.props.match.params.username
-                ? <Payment
-                    refreshUserData={this.props.refreshUserData}
-                    payeeUsername={this.props.profileInfo.username}
-                    payerId={this.props.userInfo.userId}
-                  />
-                :
-                  null
+                ? <Payment />
+                : null
               }
               <FeedContainer       
-                userId={this.props.userInfo.userId}
                 loadMoreFeed={this.loadMoreFeed.bind(this)}
-                feeds={orderedFeeds}
                 base={this.props.match.params.username}
                 view={this.extractView()}
               />
@@ -175,6 +151,8 @@ const mapStateToProps = state => {
     relationalFeed: state.relationalFeed,
     isLoggedIn: state.isLoggedIn,
     userInfo: state.userInfo,
+    globalFeed: state.globalFeed,
+    userFeed: state.userFeed,
     actionLoadProfileData,
     actionUnknownUser,
     actionProfileLoadMoreFeed,

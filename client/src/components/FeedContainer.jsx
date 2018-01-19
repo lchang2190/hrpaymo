@@ -28,7 +28,7 @@ const FeedContainer = (props) => {
   orderedFeeds.forEach((feed) => {
     
     buttons.push(
-      <Link to={`/?view=${feed.urlParam}`} key={feed.urlParam}>
+      <Link to={`${props.base || '/'}?view=${feed.urlParam}`} key={feed.urlParam}>
         <button className={viewToDisplay === feed.urlParam ? 'feed-buttons selected' : 'feed-buttons'} >
           {feed.displayLabel}
         </button>
