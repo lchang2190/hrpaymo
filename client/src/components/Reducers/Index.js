@@ -14,7 +14,7 @@ import { LOG_USER_OUT,
          LOAD_PROFILE_DATA,
          UNKNOWN_USER,
          PROFILE_LOAD_MORE_FEED
-                } from './actions';
+                } from './Actions.js';
 
 const initialState = {
     isLoggedIn: false,
