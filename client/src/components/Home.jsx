@@ -4,7 +4,6 @@ import Payment from './Payment.jsx';
 import FeedContainer from './FeedContainer.jsx';
 import MiniProfile from './MiniProfile.jsx';
 import { connect } from 'react-redux';
-// import ContactsList from './ContactsList.jsx';
 
 const Home = (props) => {
 
@@ -45,5 +44,3 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(Home);
-
-// export default Home;

@@ -142,7 +142,6 @@ class Profile extends React.Component {
   }
 }
 const mapStateToProps = state => {
-  // console.log('state', state)
   return {
     profileInfo: state.profileInfo,
     unknownUser: state.unknownUser,
