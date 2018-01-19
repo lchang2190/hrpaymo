@@ -3,6 +3,9 @@ import Navbar from './Navbar.jsx';
 import Payment from './Payment.jsx';
 import FeedContainer from './FeedContainer.jsx';
 import ProfileHeader from './ProfileHeader.jsx';
+import { connect } from 'react-redux';
+import { actionLoadProfileData,
+         actionUnknownUser } from './Reducers/Actions.js'
 import axios from 'axios';
 import feedManipulation from '../feedManipulation.js'
 
@@ -10,7 +13,7 @@ class Profile extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      profileInfo: {},
+      // profileInfo: {},
       unknownUser: false,
       profileFeed: {},
       relationalFeed: {}
@@ -92,14 +95,10 @@ class Profile extends React.Component {
   loadProfileData(username) {
     axios('/publicprofile', {params: {username: username}})
       .then((response) => {
-        this.setState({
-          profileInfo: response.data
-        });
+        this.props.dispatch(actionLoadProfileData(response.data));
       })
       .catch((err) =>{
-        this.setState({
-          unknownUser: true
-        })
+        this.props.dispatch(actionUnknownUser())
         console.error(err);
       });
   }
@@ -112,13 +111,13 @@ class Profile extends React.Component {
   render() {
     let orderedFeeds = [
       {
-        displayLabel: `${this.state.profileInfo.firstName}'s Feed`,
+        displayLabel: `${this.props.profileInfo.firstName}'s Feed`,
         urlParam: 'all',
         feedType: 'profileFeed',
         data: this.state.profileFeed
       },
       {
-        displayLabel: `Between You & ${this.state.profileInfo.firstName}`,
+        displayLabel: `Between You & ${this.props.profileInfo.firstName}`,
         urlParam: 'mutual',
         feedType: 'relationalFeed',
         data: this.state.relationalFeed
@@ -137,16 +136,16 @@ class Profile extends React.Component {
           isLoggedIn={this.props.isLoggedIn} 
           logUserOut={this.props.logUserOut} />
         <div className='body-container'>
-          {this.state.unknownUser 
+          {this.props.unknownUser 
             ? <div>User does not exist</div>
             : <div className='pay-feed-container'>
               <ProfileHeader 
-                profileInfo={this.state.profileInfo}
+                profileInfo={this.props.profileInfo}
               />
               {this.props.userInfo.username !== this.props.match.params.username
                 ? <Payment
                     refreshUserData={this.props.refreshUserData}
-                    payeeUsername={this.state.profileInfo.username}
+                    payeeUsername={this.props.profileInfo.username}
                     payerId={this.props.userInfo.userId}
                   />
                 :
@@ -166,5 +165,18 @@ class Profile extends React.Component {
     );
   }
 }
-
-export default Profile;
+const mapStateToProps = state => {
+  console.log('state', state)
+  return {
+    profileInfo: state.profileInfo,
+    unknownUser: state.unknownUser,
+    profileFeed: {},
+    relationalFeed: {},
+    isLoggedIn: state.isLoggedIn,
+    userInfo: state.userInfo,
+    actionLoadProfileData,
+    actionUnknownUser
+    
+  };
+}
+export default connect(mapStateToProps)(Profile);

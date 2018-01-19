@@ -10,7 +10,10 @@ import { LOG_USER_OUT,
          PAY_USER,
          NO_PAY_USER,
          HANDLE_PAYMENT_INPUTS,
-         LOAD_MORE_FEED} from './actions';
+         LOAD_MORE_FEED,
+         LOAD_PROFILE_DATA,
+         UNKNOWN_USER
+                } from './actions';
 import axios from 'axios';
 
 function paymo(state = {
@@ -24,10 +27,12 @@ function paymo(state = {
     amount: '',
     note: '',
     paymentFail: false,
-    usernames: []}
-    , action) {
-    
-    console.log('paymo reducer was called with state', state, 'and action', action)
+    usernames: [],
+    profileInfo: {},
+    unknownUser: false,
+    profileFeed: {},
+    relationalFeed: {}}, action) {
+    // console.log('paymo reducer was called with state', state, 'and action', action)
     switch (action.type) {
         case LOG_USER_OUT:
             return Object.assign({}, state, {
@@ -50,11 +55,10 @@ function paymo(state = {
                isLoggedIn: true,
                userInfo: action.payload
            })
-        case GET_FRIENDS_LIST: {
+        case GET_FRIENDS_LIST: 
             return Object.assign({}, state, {
                 friends: action.payload
             });
-        }
         case PREPEND_FEED:
             // console.log('reducer load feed', action.payload)
             return Object.assign({}, state, {
@@ -88,6 +92,16 @@ function paymo(state = {
           return Object.assign({}, state, {
               [action.payload.name]: action.payload.value
           })
+        case LOAD_PROFILE_DATA:
+            // console.log('loading profile data', action.payload)
+            return Object.assign({}, state, {    
+                profileInfo: action.payload
+            })
+        case UNKNOWN_USER:
+            console.log('unknown user reducer', action.payload)
+            return Object.assign({}, state, {
+                unknownUser: true
+            })
         default:
             return state
     }

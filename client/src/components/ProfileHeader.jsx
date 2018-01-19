@@ -4,7 +4,8 @@ import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import moment from 'moment';
-import ChatWindow from './ChatWindow.jsx';
+import { connect } from 'react-redux';
+// import ChatWindow from './ChatWindow.jsx';
 
 const style = {
   card: {
@@ -52,4 +53,10 @@ class ProfileHeader extends React.Component {
   }
 }
 
-export default ProfileHeader;
+const mapStateToProps = state => {
+  return {
+    profileInfo: state.profileInfo
+  }
+}
+
+export default connect(mapStateToProps)(ProfileHeader);

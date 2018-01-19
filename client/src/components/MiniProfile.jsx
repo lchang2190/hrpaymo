@@ -3,7 +3,6 @@ import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import { connect } from 'react-redux';
-// import { balance, userInfo } from './Reducers/Actions.js'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 const style = {
