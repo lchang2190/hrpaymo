@@ -4,7 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 
 import { connect } from 'react-redux';
-import { paymo } from './Reducers';
+import { paymo } from './Reducers/Index.js';
 import { actionLogOut } from './Reducers/Actions.js';
 
 const style = {
