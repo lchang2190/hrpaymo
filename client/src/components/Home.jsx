@@ -51,13 +51,11 @@ class Home extends React.Component {
             />
           </div>
           <div className="home-rightColumn">
-            <MiniProfile 
-              // userInfo={this.props.userInfo}
-            />
-            <ContactsList 
+            <MiniProfile />
+            {/*<ContactsList 
               friends={this.props.friends}
               uiAvatar={this.props.userInfo.avatarUrl || '/images/no-image.gif'}
-            />
+            />*/}
           </div>
         </div>
       </div>
