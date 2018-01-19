@@ -5,7 +5,9 @@ import FeedContainer from './FeedContainer.jsx';
 import ProfileHeader from './ProfileHeader.jsx';
 import { connect } from 'react-redux';
 import { actionLoadProfileData,
-         actionUnknownUser } from './Reducers/Actions.js'
+         actionUnknownUser,
+         actionProfileLoadMoreFeed,
+         actionPrependFeed } from './Reducers/Actions.js'
 import axios from 'axios';
 import feedManipulation from '../feedManipulation.js'
 
@@ -13,10 +15,10 @@ class Profile extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      // profileInfo: {},
-      unknownUser: false,
-      profileFeed: {},
-      relationalFeed: {}
+      // // profileInfo: {},
+      // unknownUser: false,
+      // profileFeed: {},
+      // relationalFeed: {}
     }
   }
 
@@ -53,15 +55,15 @@ class Profile extends React.Component {
     }
 
     // If feed was empty, set the returned transactions as the feed
-    let isFeedEmpty = !this.state[feedType].count || this.state[feedType].count === 0;
+    let isFeedEmpty = !this.props[feedType].count || this.props[feedType].count === 0;
 
     let newFeedObject = isFeedEmpty
       ? transactionSummary
-      : feedManipulation.mergeFeeds(transactionSummary, this.state[feedType]);
-
-    this.setState({
-      [feedType]: newFeedObject
-    })
+      : feedManipulation.mergeFeeds(transactionSummary, this.props[feedType]);
+    this.props.dispatch(actionPrependFeed({ feedType: feedType, obj: newFeedObject}))
+    // this.setState({
+    //   [feedType]: newFeedObject
+    // })
   }
 
   loadMoreFeed(feedType, userId) {
@@ -70,7 +72,7 @@ class Profile extends React.Component {
     // Send along the next valid ID you'd like returned back
     // from the database
     let params = {
-      beforeId: this.state[feedType].nextPageTransactionId,
+      beforeId: this.props[feedType].nextPageTransactionId,
       userId: userId,
       profileUsername: this.props.match.params.username
     }
@@ -80,11 +82,12 @@ class Profile extends React.Component {
 
         // Confirm there additional items to load
         if (response.data && response.data.count > 0) {
-          let combinedItems = feedManipulation.mergeFeeds(this.state[feedType], response.data);
-
-          this.setState({
-            [feedType]: combinedItems
-          })
+          let combinedItems = feedManipulation.mergeFeeds(this.props[feedType], response.data);
+          this.props.dispatch(actionProfileLoadMoreFeed({ feedType: feedType, obj: combinedItems }))
+          // this.setState({
+          //   [feedType]: combinedItems
+          // })
+          console.log('hi');
         }
       })
       .catch((err) => {
@@ -114,13 +117,13 @@ class Profile extends React.Component {
         displayLabel: `${this.props.profileInfo.firstName}'s Feed`,
         urlParam: 'all',
         feedType: 'profileFeed',
-        data: this.state.profileFeed
+        data: this.props.profileFeed
       },
       {
         displayLabel: `Between You & ${this.props.profileInfo.firstName}`,
         urlParam: 'mutual',
         feedType: 'relationalFeed',
-        data: this.state.relationalFeed
+        data: this.props.relationalFeed
       }
     ];
     
@@ -139,9 +142,7 @@ class Profile extends React.Component {
           {this.props.unknownUser 
             ? <div>User does not exist</div>
             : <div className='pay-feed-container'>
-              <ProfileHeader 
-                profileInfo={this.props.profileInfo}
-              />
+              <ProfileHeader />
               {this.props.userInfo.username !== this.props.match.params.username
                 ? <Payment
                     refreshUserData={this.props.refreshUserData}
@@ -170,12 +171,14 @@ const mapStateToProps = state => {
   return {
     profileInfo: state.profileInfo,
     unknownUser: state.unknownUser,
-    profileFeed: {},
-    relationalFeed: {},
+    profileFeed: state.profileFeed,
+    relationalFeed: state.relationalFeed,
     isLoggedIn: state.isLoggedIn,
     userInfo: state.userInfo,
     actionLoadProfileData,
-    actionUnknownUser
+    actionUnknownUser,
+    actionProfileLoadMoreFeed,
+    actionPrependFeed
     
   };
 }

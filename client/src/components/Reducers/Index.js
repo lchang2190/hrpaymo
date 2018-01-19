@@ -12,7 +12,8 @@ import { LOG_USER_OUT,
          HANDLE_PAYMENT_INPUTS,
          LOAD_MORE_FEED,
          LOAD_PROFILE_DATA,
-         UNKNOWN_USER
+         UNKNOWN_USER,
+         PROFILE_LOAD_MORE_FEED
                 } from './actions';
 import axios from 'axios';
 
@@ -92,13 +93,18 @@ function paymo(state = {
           return Object.assign({}, state, {
               [action.payload.name]: action.payload.value
           })
+        case PROFILE_LOAD_MORE_FEED:
+            console.log('reducer load more feed profile', action.payload)
+            return Object.assign({}, state, {
+                [action.payload.feedType]: action.payload.obj
+            })
         case LOAD_PROFILE_DATA:
             // console.log('loading profile data', action.payload)
             return Object.assign({}, state, {    
                 profileInfo: action.payload
             })
         case UNKNOWN_USER:
-            console.log('unknown user reducer', action.payload)
+            // console.log('unknown user reducer', action.payload)
             return Object.assign({}, state, {
                 unknownUser: true
             })

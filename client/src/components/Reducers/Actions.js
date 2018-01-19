@@ -15,6 +15,7 @@ export const HANDLE_PAYMENT_INPUTS = 'HANDLE_PAYMENT_INPUTS';
 =======
 export const LOAD_PROFILE_DATA = 'LOAD_PROFILE_DATA';
 export const UNKNOWN_USER = 'UNKNOWN_USER';
+export const PROFILE_LOAD_MORE_FEED = 'PROFILE_LOAD_MORE_FEED'
 
 >>>>>>> redux profile
 
@@ -71,6 +72,16 @@ export function changeUsernames(request) {
 		type: CHANGE_USERNAMES,
 	}
 }
+
+export function actionProfileLoadMoreFeed(request) {
+	console.log('action profile load feed', request);
+	return {
+		type: PROFILE_LOAD_MORE_FEED,
+		payload: request
+	}
+}
+
+
 export function actionLoadProfileData(request) {
 	// console.log('action load profile', request);
 	return {
@@ -107,7 +118,7 @@ export function handlePaymentInputs(obj) {
 }
 
 export function actionUnknownUser() {
-	console.log('action load unknown user', request);
+	// console.log('action load unknown user', request);
 		return {
 			type: UNKNOWN_USER,
 		}
