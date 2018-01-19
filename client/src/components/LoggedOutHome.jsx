@@ -20,7 +20,6 @@ class LoggedOutHome extends React.Component {
         let idToken = googleUser.getAuthResponse().id_token;
         axios.post('/login', { idToken })
           .then((userId) => {
-            // console.log('userid', userId)
             this.props.logUserIn(userId.data);
           })
           .catch((err) => {
