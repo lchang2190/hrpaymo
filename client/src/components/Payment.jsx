@@ -7,7 +7,6 @@ import FlatButton from 'material-ui/FlatButton';
 import AutoComplete from 'material-ui/AutoComplete';
 
 import { connect } from 'react-redux';
-import { paymo } from './Reducers';
 import { changeUsernames, changePayeeUsername, payUser, noPayUser, handlePaymentInputs } from './Reducers/Actions.js';
 
 const style = {
