@@ -46,27 +46,27 @@ module.exports = {
   sendEmail: (txnId) => {
     db.email(txnId)
       .then((result) => {
-        payTemplate = payTemplate.replace(/{{payer_username}}/g, result.payerUsername);
-        payTemplate = payTemplate.replace(/{{payer_name}}/g, result.payerName);
-        payTemplate = payTemplate.replace(/{{payer_avatar_url}}/g, result.payerPic);
-        payTemplate = payTemplate.replace(/{{payment_message}}/g, result.paymentMessage);
-        payTemplate = payTemplate.replace(/{{payment_date}}/g, moment(result.paymentDate).format('MMM Do YY, h:mm'));
-        payTemplate = payTemplate.replace(/{{payment_amount}}/g, result.paymentAmount);
-        payTemplate = payTemplate.replace(/{{payment_id}}/g, result.paymentId);
-        payTemplate = payTemplate.replace(/{{payee_username}}/g, result.payeeUsername);
+        let emailContent = payTemplate
+          .replace(/{{payer_username}}/g, result.payerUsername)
+          .replace(/{{payer_name}}/g, result.payerName)
+          .replace(/{{payer_avatar_url}}/g, result.payerPic)
+          .replace(/{{payment_message}}/g, result.paymentMessage)
+          .replace(/{{payment_date}}/g, moment(result.paymentDate).format('MMM Do YY, h:mm'))
+          .replace(/{{payment_amount}}/g, result.paymentAmount)
+          .replace(/{{payment_id}}/g, result.paymentId)
+          .replace(/{{payee_username}}/g, result.payeeUsername);
 
         var message = {
           text: "",
           from: "PayWaal Inc.",
           to: result.payeeEmail,
           subject: `${result.payerName} paid you $${result.paymentAmount}`,
-          attachment: [{ data: payTemplate, alternative: true }]
+          attachment: [{ data: emailContent, alternative: true }]
         };
 
         // send as type html encoding
         server.send(message, function (err, message) { 
           if (err) {console.log('error send email', err)}
-          else { console.log('successful email send') }
       })
       .catch((err) => {
         console.log('error send email', err);
