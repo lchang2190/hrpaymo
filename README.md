@@ -1,13 +1,12 @@
 # Project Name
-
-> Pithy project description
+Digital wallet for payment transactions between friends
 
 ## Team
 
-  - teamMember
-  - teamMember
-  - teamMember
-  - teamMember
+  - Larry Chang
+  - William Putnam
+  - Albert Wong
+  - Aaron Pietsch
 
 ## Table of Contents
 
@@ -21,15 +20,15 @@
 
 ## Usage
 
-> Some usage instructions
+A venmo clone
 
 ## Requirements
 
 - Node 6.4.x
-- Redis 2.6.x
 - Postgresql 9.1.x
-- etc
-- etc
+- Materials UI
+- Redux.js
+- React Router
 
 ## Development
 
